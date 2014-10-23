@@ -63,7 +63,9 @@ function cgit_breadcrumb ($sep = ' / ') {
     } elseif ( is_tax() ) {
 
         $tax     = get_taxonomy( get_query_var('taxonomy') );
+        $term    = get_term_by('slug', get_query_var('term'), $tax->name);
         $links[] = $tax->labels->name;
+        $links[] = $term->name;
 
     } elseif ( is_search() ) {
 
