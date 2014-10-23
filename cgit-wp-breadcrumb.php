@@ -105,7 +105,7 @@ function cgit_breadcrumb ($sep = ' / ') {
 function cgit_breadcrumb_shortcode ($atts) {
 
     $defaults = array(
-        'sep' = ' / ',
+        'sep' => ' / ',
     );
 
     $atts = shortcode_atts($defaults, $atts);
