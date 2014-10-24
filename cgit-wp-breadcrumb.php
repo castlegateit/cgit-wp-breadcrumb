@@ -20,7 +20,7 @@ function cgit_breadcrumb ($sep = ' / ', $home = FALSE, $index = FALSE) {
     global $post;
 
     $home_url   = esc_url( home_url('/') );
-    $home_name  = 'Home';
+    $home_name  = $home ?: 'Home';
     $posts_obj  = get_post_type_object('post');
     $posts_name = $index ?: $posts_obj->labels->name;
     $links      = array( "<a href='$home_url'>$home_name</a>" );
