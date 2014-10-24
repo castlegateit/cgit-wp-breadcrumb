@@ -15,7 +15,7 @@ License: MIT
 /**
  * Generate breadcrumb
  */
-function cgit_breadcrumb ($sep = ' / ') {
+function cgit_breadcrumb ($sep = ' / ', $index = FALSE) {
 
     global $post;
 
@@ -47,6 +47,11 @@ function cgit_breadcrumb ($sep = ' / ') {
         $object  = get_post_type_object($type);
         $url     = get_post_type_archive_link($type) ?: $home_url;
         $name    = $object->labels->name;
+
+        if ($type == 'post' && $index) {
+            $name = $index;
+        }
+
         $links[] = "<a href='$url'>$name</a>";
         $links[] = get_the_title();
 
@@ -107,12 +112,13 @@ function cgit_breadcrumb ($sep = ' / ') {
 function cgit_breadcrumb_shortcode ($atts) {
 
     $defaults = array(
-        'sep' => ' / ',
+        'sep'   => ' / ',
+        'index' => FALSE,
     );
 
     $atts = shortcode_atts($defaults, $atts);
 
-    return cgit_breadcrumb($atts['sep']);
+    return cgit_breadcrumb($atts['sep'], $atts['index']);
 
 }
 
