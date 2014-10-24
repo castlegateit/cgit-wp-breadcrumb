@@ -20,9 +20,19 @@ function cgit_breadcrumb ($sep = ' / ', $index = FALSE) {
     global $post;
 
     $home_url   = esc_url( home_url('/') );
-    $links = array( "<a href='$home_url'>Home</a>" );
+    $posts_obj  = get_post_type_object('post');
+    $posts_name = $index ?: $posts_obj->labels->name;
+    $links      = array( "<a href='$home_url'>Home</a>" );
 
-    if ( is_page() ) {
+    if ( is_front_page() ) {
+
+        // do nothing
+
+    } elseif ( is_home() ) {
+
+        $links[] = $posts_name;
+
+    } elseif ( is_page() ) {
 
         $parent = $post->post_parent;
 
@@ -43,16 +53,16 @@ function cgit_breadcrumb ($sep = ' / ', $index = FALSE) {
 
     } elseif ( is_singular() ) {
 
-        $type    = get_post_type($post);
-        $object  = get_post_type_object($type);
-        $url     = get_post_type_archive_link($type) ?: $home_url;
-        $name    = $object->labels->name;
+        if ( get_option('show_on_front') == 'page' ) {
 
-        if ($type == 'post' && $index) {
-            $name = $index;
+            $type    = get_post_type($post);
+            $object  = get_post_type_object($type);
+            $url     = $type == 'post' ? get_permalink( get_option('page_for_posts') ) : get_post_type_archive_link($type);
+            $name    = $type == 'post' ? $posts_name : $object->labels->name;
+            $links[] = "<a href='$url'>$name</a>";
+
         }
 
-        $links[] = "<a href='$url'>$name</a>";
         $links[] = get_the_title();
 
     } elseif ( is_category() ) {
