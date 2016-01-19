@@ -14,7 +14,6 @@ License: MIT
 
 include dirname(__FILE__) . '/breadcrumb.php';
 
-
 /**
  * Function to return breadcrumb
  */
@@ -29,9 +28,9 @@ function cgit_breadcrumb($sep = ' / ', $home = false, $index = false) {
  */
 add_shortcode('breadcrumb', function($atts) {
     $defaults = array(
-        'sep'   => ' / ',
-        'home'  => FALSE,
-        'index' => FALSE,
+        'sep' => ' / ',
+        'home' => false,
+        'index' => false,
     );
 
     $atts = shortcode_atts($defaults, $atts);
