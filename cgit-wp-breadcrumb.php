@@ -35,6 +35,7 @@ add_shortcode('breadcrumb', function($atts) {
     );
 
     $atts = shortcode_atts($defaults, $atts);
+    $breadcrumb = new Cgit\Breadcrumb($atts['sep'], $atts['home'], $atts['index']);
 
-    return new Cgit\Breadcrumb($atts['sep'], $atts['home'], $atts['index']);
+    return $breadcrumb->render();
 });
