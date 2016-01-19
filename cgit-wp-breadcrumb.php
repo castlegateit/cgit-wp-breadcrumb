@@ -12,29 +12,11 @@ License: MIT
 
 */
 
-include dirname(__FILE__) . '/breadcrumb.php';
-
 /**
- * Function to return breadcrumb
+ * Load plugin
  */
-function cgit_breadcrumb($sep = ' / ', $home = false, $index = false) {
-    $breadcrumb = new Cgit\Breadcrumb($sep, $home, $index);
-
-    return $breadcrumb->render();
-}
-
-/**
- * Breadcrumb shortcode
- */
-add_shortcode('breadcrumb', function($atts) {
-    $defaults = array(
-        'sep' => ' / ',
-        'home' => false,
-        'index' => false,
-    );
-
-    $atts = shortcode_atts($defaults, $atts);
-    $breadcrumb = new Cgit\Breadcrumb($atts['sep'], $atts['home'], $atts['index']);
-
-    return $breadcrumb->render();
-});
+add_action('plugins_loaded', function() {
+    include dirname(__FILE__) . '/breadcrumb.php';
+    include dirname(__FILE__) . '/functions.php';
+    include dirname(__FILE__) . '/shortcodes.php';
+}, 10);
