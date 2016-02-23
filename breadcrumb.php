@@ -6,16 +6,22 @@ class Breadcrumb
 {
     /**
      * List of breadcrumb entries
+     *
+     * @var array
      */
     public $breadcrumb = [];
 
     /**
      * Separator
+     *
+     * @var string
      */
     public $sep;
 
     /**
      * Conditional functions
+     *
+     * @var array
      */
     public $conditions = [
         'is_front_page',
@@ -36,6 +42,11 @@ class Breadcrumb
 
     /**
      * Constructor
+     *
+     * @param string $sep Breadcrumb link separator
+     * @param string|bool $home Home link text
+     * @param string|bool $index Posts index link text
+     * @return void
      */
     public function __construct($sep = ' / ', $home = false, $index = false)
     {
@@ -58,6 +69,8 @@ class Breadcrumb
 
     /**
      * Render breadcrumb
+     *
+     * @return string HTML breadcrumb output
      */
     public function render()
     {
@@ -69,6 +82,8 @@ class Breadcrumb
      *
      * Checks each WordPress conditional function in turn until it finds one
      * that returns true, then calls the relevant method.
+     *
+     * @return void
      */
     public function update()
     {
@@ -83,6 +98,9 @@ class Breadcrumb
 
     /**
      * Convert snake case to camel case
+     *
+     * @param string $str Underscore-separated string
+     * @return string Camel-case string
      */
     public function camelize($str)
     {
@@ -91,6 +109,8 @@ class Breadcrumb
 
     /**
      * Front page
+     *
+     * @return void
      */
     public function isFrontPage()
     {
@@ -102,6 +122,8 @@ class Breadcrumb
      *
      * If the front page is a static page, the "home" page is the main posts
      * index page.
+     *
+     * @return void
      */
     public function isHome()
     {
@@ -110,6 +132,8 @@ class Breadcrumb
 
     /**
      * Page
+     *
+     * @return void
      */
     public function isPage()
     {
@@ -134,6 +158,8 @@ class Breadcrumb
 
     /**
      * Singular
+     *
+     * @return void
      */
     public function isSingular()
     {
@@ -161,6 +187,8 @@ class Breadcrumb
 
     /**
      * Category
+     *
+     * @return void
      */
     public function isCategory()
     {
@@ -170,6 +198,8 @@ class Breadcrumb
 
     /**
      * Tag
+     *
+     * @return void
      */
     public function isTag()
     {
@@ -179,6 +209,8 @@ class Breadcrumb
 
     /**
      * Taxonomy
+     *
+     * @return void
      */
     public function isTax()
     {
@@ -190,6 +222,8 @@ class Breadcrumb
 
     /**
      * Search
+     *
+     * @return void
      */
     public function isSearch()
     {
@@ -198,6 +232,8 @@ class Breadcrumb
 
     /**
      * Day
+     *
+     * @return void
      */
     public function isDay()
     {
@@ -206,6 +242,8 @@ class Breadcrumb
 
     /**
      * Month
+     *
+     * @return void
      */
     public function isMonth()
     {
@@ -214,6 +252,8 @@ class Breadcrumb
 
     /**
      * Year
+     *
+     * @return void
      */
     public function isYear()
     {
@@ -222,6 +262,8 @@ class Breadcrumb
 
     /**
      * Post type archive
+     *
+     * @return void
      */
     public function isPostTypeArchive()
     {
@@ -230,6 +272,8 @@ class Breadcrumb
 
     /**
      * Archive
+     *
+     * @return void
      */
     public function isArchive()
     {
@@ -238,6 +282,8 @@ class Breadcrumb
 
     /**
      * 404
+     *
+     * @return void
      */
     public function is404()
     {
