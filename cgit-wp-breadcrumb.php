@@ -12,11 +12,9 @@ License: MIT
 
 */
 
-/**
- * Load plugin
- */
+// Load plugin
 add_action('plugins_loaded', function() {
-    include dirname(__FILE__) . '/breadcrumb.php';
-    include dirname(__FILE__) . '/functions.php';
-    include dirname(__FILE__) . '/shortcodes.php';
-}, 10);
+    require_once __DIR__ . '/src/autoload.php';
+    require_once __DIR__ . '/functions.php';
+    require_once __DIR__ . '/shortcodes.php';
+});
