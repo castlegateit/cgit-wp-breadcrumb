@@ -179,7 +179,12 @@ class Breadcrumb
         // Only add the post type index link if the item is not a post type or
         // if the site has a static front page.
         if ($type != 'post' || get_option('show_on_front') == 'page') {
-            $this->breadcrumb[] = '<a href="' . $url . '">' . $name . '</a>';
+            if ($url) {
+                $this->breadcrumb[] = '<a href="' . $url . '">' . $name
+                    . '</a>';
+            } else {
+                $this->breadcrumb[] = $name;
+            }
         }
 
         $this->breadcrumb[] = get_the_title();

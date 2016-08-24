@@ -5,7 +5,7 @@
 Plugin Name: Castlegate IT WP Breadcrumb
 Plugin URI: http://github.com/castlegateit/cgit-wp-breadcrumb
 Description: Simple breadcrumb navigation for WordPress.
-Version: 2.0
+Version: 2.1
 Author: Castlegate IT
 Author URI: http://www.castlegateit.co.uk/
 License: MIT
