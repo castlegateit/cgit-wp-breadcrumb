@@ -1,15 +1,26 @@
 <?php
 
 /**
- * Function to return breadcrumb
+ * Return HTML breadcrumb navigation
  *
- * @param string $sep Breadcrumb link separator
- * @param string|bool $home Home link text
- * @param string|bool $index Posts index link text
- * @return string Rendered HTML output
+ * @param string $sep
+ * @param mixed $home
+ * @param mixed $index
+ * @return string
  */
-function cgit_breadcrumb($sep = ' / ', $home = false, $index = false) {
-    $breadcrumb = new Cgit\Breadcrumb($sep, $home, $index);
+function cgit_breadcrumb($sep = ' / ', $home = false, $index = false)
+{
+    $args = [];
 
-    return $breadcrumb->render();
+    if ($home) {
+        $args['home'] = $home;
+    }
+
+    if ($index) {
+        $args['index'] = $index;
+    }
+
+    $crumb = new Cgit\Breadcrumb($args);
+
+    return $crumb->render($sep);
 }
