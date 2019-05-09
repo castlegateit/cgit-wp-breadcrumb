@@ -8,7 +8,7 @@ Description: Simple breadcrumb navigation for WordPress.
 Version: 3.1
 Author: Castlegate IT
 Author URI: http://www.castlegateit.co.uk/
-License: AGPL
+License: AGPLv3
 
 */
 
