@@ -63,20 +63,49 @@ class Breadcrumb
      */
     public function __construct($names = [])
     {
-        $this->names = wp_parse_args($names, [
-            'home' => 'Home',
-            'index' => 'Posts',
-        ]);
-
-        // Apply WordPress filters
-        $this->names = apply_filters('cgit_breadcrumb_names', $this->names);
-        $this->templates = apply_filters(
-            'cgit_breadcrumb_templates',
-            $this->templates
-        );
+        $this->setNames($names);
+        $this->setTemplates();
 
         $this->add($this->names['home'], home_url('/'));
         $this->update();
+    }
+
+    /**
+     * Set home and index names
+     *
+     * @param array $names
+     * @return void
+     */
+    protected function setNames($names = [])
+    {
+        $defaults = [
+            'home' => 'Home',
+            'index' => 'Posts',
+        ];
+
+        // If the site has an index page, use the title of that page in the
+        // index link as the default value.
+        if ($this->hasFrontPage()) {
+            $index_id = $this->indexId();
+
+            if ($index_id) {
+                $defaults['index'] = get_the_title($index_id);
+            }
+        }
+
+        // Set names based on optional parameters, then default values. Then
+        // apply filter to allow customization.
+        $this->names = apply_filters('cgit_breadcrumb_names', wp_parse_args($names, $defaults));
+    }
+
+    /**
+     * Set template values
+     *
+     * @return void
+     */
+    protected function setTemplates()
+    {
+        $this->templates = apply_filters('cgit_breadcrumb_templates', $this->templates);
     }
 
     /**
@@ -93,6 +122,58 @@ class Breadcrumb
             'url' => $url,
             'current' => $current,
         ];
+    }
+
+    /**
+     * Append parent pages to the list
+     *
+     * @param WP_Post|integer $page
+     * @return void
+     */
+    protected function addParents($page)
+    {
+        $page = get_post($page);
+        $parent_id = $page->post_parent;
+        $ancestors = [];
+
+        if (!$parent_id) {
+            return;
+        }
+
+        // Assemble a list of ancestor pages
+        while ($parent_id) {
+            $parent_post = get_post($parent_id);
+            $parent_id = $parent_post->post_parent;
+            $ancestors[] = $parent_post;
+        }
+
+        // Reverse the order of the ancestor pages
+        $ancestors = array_reverse($ancestors);
+
+        // Add each ancestor page to the breadcrumb list
+        foreach ($ancestors as $ancestor) {
+            $this->add(get_the_title($ancestor), get_permalink($ancestor));
+        }
+    }
+
+    /**
+     * Append index page to the list
+     *
+     * @return void
+     */
+    protected function addIndexPage()
+    {
+        $id = $this->indexId();
+        $title = get_the_title($id);
+        $url = get_permalink($id);
+
+        $this->addParents($id);
+
+        if (is_home()) {
+            return $this->add($title, null, true);
+        }
+
+        $this->add($title, $url);
     }
 
     /**
@@ -199,8 +280,8 @@ class Breadcrumb
      */
     protected function isHome()
     {
-        if (get_option('show_on_front') == 'page') {
-            return $this->add($this->names['index'], false, true);
+        if ($this->hasFrontPage()) {
+            return $this->addIndexPage();
         }
 
         $this->isFrontPage();
@@ -219,25 +300,8 @@ class Breadcrumb
     {
         global $post;
 
-        $parent_id = $post->post_parent;
-        $ancestors = [];
-
-        // Assemble a list of ancestor pages
-        if ($parent_id) {
-            while ($parent_id) {
-                $parent_post = get_post($parent_id);
-                $parent_id = $parent_post->post_parent;
-                $ancestors[] = $parent_post;
-            }
-        }
-
-        // Reverse the order of the ancestor pages
-        $ancestors = array_reverse($ancestors);
-
-        // Add each ancestor page to the breadcrumb list
-        foreach ($ancestors as $ancestor) {
-            $this->add(get_the_title($ancestor), get_permalink($ancestor));
-        }
+        // Add parent pages to the list
+        $this->addParents($post);
 
         // Add the current page to the list
         $this->add(get_the_title(), false, true);
@@ -256,11 +320,8 @@ class Breadcrumb
 
         // If this is a standard post and the site is using a static front page,
         // add the posts index page to the list.
-        if ($type == 'post' && get_option('show_on_front') == 'page') {
-            $this->add(
-                $this->names['index'],
-                get_permalink(get_option('page_for_posts'))
-            );
+        if ($type == 'post' && $this->hasFrontPage()) {
+            $this->addIndexPage();
         }
 
         // If this is not a standard post, add the custom post type archive URL
@@ -284,6 +345,10 @@ class Breadcrumb
      */
     protected function isCategory()
     {
+        if ($this->hasFrontPage()) {
+            $this->addIndexPage();
+        }
+
         $this->add('Category');
         $this->add(single_cat_title('', false), false, true);
     }
@@ -295,6 +360,10 @@ class Breadcrumb
      */
     protected function isTag()
     {
+        if ($this->hasFrontPage()) {
+            $this->addIndexPage();
+        }
+
         $this->add('Tag');
         $this->add(single_tag_title('', false), false, true);
     }
@@ -330,6 +399,10 @@ class Breadcrumb
      */
     public function isDay()
     {
+        if ($this->hasFrontPage()) {
+            $this->addIndexPage();
+        }
+
         $this->add(get_the_date(), false, true);
     }
 
@@ -340,6 +413,10 @@ class Breadcrumb
      */
     protected function isMonth()
     {
+        if ($this->hasFrontPage()) {
+            $this->addIndexPage();
+        }
+
         $this->add(get_the_date('F Y'), false, true);
     }
 
@@ -350,6 +427,10 @@ class Breadcrumb
      */
     protected function isYear()
     {
+        if ($this->hasFrontPage()) {
+            $this->addIndexPage();
+        }
+
         $this->add(get_the_date('Y'), false, true);
     }
 
@@ -381,5 +462,29 @@ class Breadcrumb
     protected function is404()
     {
         $this->add('Page not found', false, true);
+    }
+
+    /**
+     * Site has page for posts?
+     *
+     * @return boolean
+     */
+    protected function hasFrontPage()
+    {
+        return get_option('show_on_front') === 'page';
+    }
+
+    /**
+     * Front page ID
+     *
+     * @return integer
+     */
+    protected function indexId()
+    {
+        if (!$this->hasFrontPage()) {
+            return 0;
+        }
+
+        return get_option('page_for_posts');
     }
 }
