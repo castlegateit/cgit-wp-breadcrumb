@@ -164,10 +164,15 @@ class Breadcrumb
     protected function addIndexPage()
     {
         $id = $this->indexId();
-        $title = get_the_title($id);
-        $url = get_permalink($id);
+        $title = $this->names['index'];
+        $url = null;
 
-        $this->addParents($id);
+        if ($id) {
+            $title = get_the_title($id);
+            $url = get_permalink($id);
+
+            $this->addParents($id);
+        }
 
         if (is_home()) {
             return $this->add($title, null, true);
@@ -485,6 +490,6 @@ class Breadcrumb
             return 0;
         }
 
-        return get_option('page_for_posts');
+        return (int) get_option('page_for_posts');
     }
 }
