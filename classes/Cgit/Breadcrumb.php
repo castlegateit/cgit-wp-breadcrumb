@@ -78,9 +78,11 @@ class Breadcrumb
      */
     protected function setNames($names = [])
     {
+        $type = get_post_type_object('post');
+
         $defaults = [
             'home' => 'Home',
-            'index' => 'Posts',
+            'index' => $type->label ?? 'Posts',
         ];
 
         // If the site has an index page, use the title of that page in the
