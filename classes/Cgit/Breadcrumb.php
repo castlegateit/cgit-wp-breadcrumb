@@ -81,8 +81,8 @@ class Breadcrumb
         $type = get_post_type_object('post');
 
         $defaults = [
-            'home' => 'Home',
-            'index' => $type->label ?? 'Posts',
+            'home' => __('Home', 'cgit-wp-breadcrumb'),
+            'index' => $type->label ?? __('Posts', 'cgit-wp-breadcrumb'),
         ];
 
         // If the site has an index page, use the title of that page in the
