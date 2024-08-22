@@ -1,6 +1,6 @@
 <?php
 
-namespace Cgit;
+namespace Castlegate\Breadcrumb;
 
 class Breadcrumb
 {

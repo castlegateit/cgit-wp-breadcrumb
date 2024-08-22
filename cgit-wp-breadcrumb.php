@@ -1,22 +1,23 @@
 <?php
 
-/*
-
-Plugin Name: Castlegate IT WP Breadcrumb
-Plugin URI: http://github.com/castlegateit/cgit-wp-breadcrumb
-Description: Simple breadcrumb navigation for WordPress.
-Version: 3.2.3
-Author: Castlegate IT
-Author URI: http://www.castlegateit.co.uk/
-License: MIT
-
-*/
+/**
+ * Plugin Name:  Castlegate IT WP Breadcrumb
+ * Plugin URI:   https://github.com/castlegateit/cgit-wp-breadcrumb
+ * Description:  Simple breadcrumb navigation for WordPress.
+ * Version:      3.3.0
+ * Requires PHP: 8.2
+ * Author:       Castlegate IT
+ * Author URI:   https://www.castlegateit.co.uk/
+ * License:      MIT
+ * Update URI:   https://github.com/castlegateit/cgit-wp-breadcrumb
+ */
 
 if (!defined('ABSPATH')) {
     wp_die('Access denied');
 }
 
-require_once __DIR__ . '/classes/autoload.php';
-require_once __DIR__ . '/functions.php';
+define('CGIT_WP_BREADCRUMB_VERSION', '3.3.0');
+define('CGIT_WP_BREADCRUMB_PLUGIN_FILE', __FILE__);
+define('CGIT_WP_BREADCRUMB_PLUGIN_DIR', __DIR__);
 
-do_action('cgit_breadcrumb_loaded');
+require_once __DIR__ . '/vendor/autoload.php';

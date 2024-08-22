@@ -1,9 +1,11 @@
 # Castlegate IT WP Breadcrumb #
 
-Castlegate IT WP Breadcrumb adds a simple breadcrumb navigation to WordPress. The `Cgit\Breadcrumb` class can generate breadcrumb items as an array of data, an array of HTML links, or a complete breadcrumb navigation:
+Castlegate IT WP Breadcrumb adds a simple breadcrumb navigation to WordPress. The `Castlegate\Breadcrumb\Breadcrumb` class can generate breadcrumb items as an array of data, an array of HTML links, or a complete breadcrumb navigation:
 
 ~~~ php
-$crumb = new Cgit\Breadcrumb();
+use Castlegate\Breadcrumb\Breadcrumb;
+
+$crumb = new Breadcrumb();
 $foo = $crumb->getItems(); // return array of items
 $foo = $crumb->getLinks(); // return array of HTML links
 $foo = $crumb->render($sep); // return HTML links separated by $sep
@@ -15,7 +17,7 @@ $foo = $crumb->renderList($tag); // return HTML list
 You can specify the text used for the home page and the posts index in the constructor:
 
 ~~~ php
-$crumb = new Cgit\Breadcrumb([
+$crumb = new Breadcrumb([
     'home' => 'Home',
     'index' => 'News',
 ]);

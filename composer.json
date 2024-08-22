@@ -1,0 +1,11 @@
+{
+    "name": "castlegate/cgit-wp-breadcrumb",
+    "autoload": {
+        "psr-4": {
+            "Castlegate\\Breadcrumb\\": "classes"
+        },
+        "files": [
+            "compat/Breadcrumb.php"
+        ]
+    }
+}
