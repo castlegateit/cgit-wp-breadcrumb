@@ -383,7 +383,7 @@ class Breadcrumb
     protected function isTax()
     {
         $taxonomy = get_taxonomy(get_query_var('taxonomy'));
-        $term = get_term_by('slug', get_query_var('term'), $taxonomy->name);
+        $term = get_queried_object();
 
         $this->add($taxonomy->labels->name);
         $this->add($term->name, false, true);

@@ -4,7 +4,7 @@
  * Plugin Name:  Castlegate IT WP Breadcrumb
  * Plugin URI:   https://github.com/castlegateit/cgit-wp-breadcrumb
  * Description:  Simple breadcrumb navigation for WordPress.
- * Version:      3.3.0
+ * Version:      3.3.1
  * Requires PHP: 8.2
  * Author:       Castlegate IT
  * Author URI:   https://www.castlegateit.co.uk/
@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
     wp_die('Access denied');
 }
 
-define('CGIT_WP_BREADCRUMB_VERSION', '3.3.0');
+define('CGIT_WP_BREADCRUMB_VERSION', '3.3.1');
 define('CGIT_WP_BREADCRUMB_PLUGIN_FILE', __FILE__);
 define('CGIT_WP_BREADCRUMB_PLUGIN_DIR', __DIR__);
 
