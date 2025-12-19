@@ -288,7 +288,8 @@ class Breadcrumb
     protected function isHome()
     {
         if ($this->hasFrontPage()) {
-            return $this->addIndexPage();
+            $this->addIndexPage();
+            return;
         }
 
         $this->isFrontPage();
